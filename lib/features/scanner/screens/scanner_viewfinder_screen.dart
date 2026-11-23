@@ -1,8 +1,8 @@
-import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/routing/routing.dart';
 import '../widgets/viewfinder_backdrop.dart';
 import '../widgets/viewfinder_ar_guide.dart';
 import '../widgets/viewfinder_top_controls.dart';
@@ -58,10 +58,14 @@ class _ScannerViewfinderScreenState extends ConsumerState<ScannerViewfinderScree
       if (!mounted) return;
 
       // Open sensory check sheet displaying the detected species
-      SensoryCheckBottomSheet.show(
+      final result = await SensoryCheckBottomSheet.show(
         context,
         speciesName: species.displayName,
       );
+
+      if (result != null && mounted) {
+        context.goToVerdict(VerdictRouteArgs.fromScanResult(result));
+      }
     }
   }
 

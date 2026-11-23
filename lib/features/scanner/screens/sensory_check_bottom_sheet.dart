@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/routing/routing.dart';
+import '../../../core/models/scan_result_model.dart';
 import '../../../core/models/sensory_input.dart';
 import '../models/sensory_option_item.dart';
 import '../widgets/sensory_question_group.dart';
@@ -17,11 +17,11 @@ class SensoryCheckBottomSheet extends ConsumerStatefulWidget {
     this.speciesName = 'Tongkol (Bullet Tuna)',
   });
 
-  static Future<void> show(
+  static Future<ScanResultModel?> show(
     BuildContext context, {
     String speciesName = 'Tongkol (Bullet Tuna)',
   }) {
-    return showModalBottomSheet(
+    return showModalBottomSheet<ScanResultModel>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -59,8 +59,6 @@ class _SensoryCheckBottomSheetState
 
   Future<void> _onSeeResult({bool skipped = false}) async {
     AppMotion.lockOnHaptic();
-    final navigator = Navigator.of(context);
-    navigator.pop();
 
     final sensory = skipped
         ? SensoryInput.skipped()
@@ -74,7 +72,7 @@ class _SensoryCheckBottomSheetState
     final result = await vm.submitSensoryAndCalculateVerdict(sensory);
 
     if (mounted) {
-      context.goToVerdict(VerdictRouteArgs.fromScanResult(result));
+      Navigator.of(context).pop(result);
     }
   }
 
@@ -107,10 +105,13 @@ class _SensoryCheckBottomSheetState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '10s Sensory Check',
-                          style: AppTypography.title1(color: AppColors.textPrimary),
+                        Expanded(
+                          child: Text(
+                            '10s Sensory Check',
+                            style: AppTypography.title1(color: AppColors.textPrimary),
+                          ),
                         ),
+                        const SizedBox(width: AppSpacing.s),
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.s, vertical: 2),

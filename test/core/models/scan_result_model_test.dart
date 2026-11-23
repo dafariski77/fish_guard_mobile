@@ -1,10 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fish_guard_mobile/core/models/scan_result_model.dart';
-import 'package:fish_guard_mobile/core/models/species_prediction.dart';
-import 'package:fish_guard_mobile/core/models/vision_freshness.dart';
-import 'package:fish_guard_mobile/core/models/sensory_input.dart';
-import 'package:fish_guard_mobile/core/models/final_verdict.dart';
 import 'package:fish_guard_mobile/core/routing/route_arguments.dart';
 
 void main() {

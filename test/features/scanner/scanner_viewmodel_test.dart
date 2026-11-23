@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fish_guard_mobile/features/scanner/viewmodels/scanner_state.dart';
 import 'package:fish_guard_mobile/features/scanner/viewmodels/scanner_viewmodel.dart';
 import 'package:fish_guard_mobile/features/home/repositories/recent_scans_repository.dart';
 import 'package:fish_guard_mobile/core/models/sensory_input.dart';
