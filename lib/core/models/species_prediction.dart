@@ -14,6 +14,7 @@ class SpeciesPrediction {
 
   bool get isHighHistamine => intrinsicRisk == 'HIGH_HISTAMINE';
   bool get isCiguateraWatch => intrinsicRisk == 'CIGUATERA_WATCH';
+  bool get isUnknownRisk => intrinsicRisk == 'UNKNOWN_RISK';
 
   factory SpeciesPrediction.fromJson(Map<String, dynamic> json) {
     return SpeciesPrediction(

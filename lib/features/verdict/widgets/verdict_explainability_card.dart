@@ -151,86 +151,111 @@ class VerdictExplainabilityCard extends StatelessWidget {
         color: const Color(0xFF1E293B),
         borderRadius: AppRadius.borderCard,
       ),
-      child: Stack(
-        children: [
-          Center(
-            child: Icon(
-              Icons.image_rounded,
-              size: 48,
-              color: Colors.white.withValues(alpha: 0.15),
-            ),
-          ),
-          // Eye Bounding Box Indicator
-          Positioned(
-            left: 36,
-            top: 28,
-            child: Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: isSafe
-                      ? AppColors.verdictSafe
-                      : (isCaution
-                          ? AppColors.verdictCaution
-                          : AppColors.verdictAvoid),
-                  width: 2,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final totalW = constraints.maxWidth;
+          const totalH = 140.0;
+
+          // Eye normalized coordinates [x, y, w, h] or default fallback
+          final eBox = (eyeBbox != null &&
+                  eyeBbox!.length == 4 &&
+                  eyeBbox![2] > 0 &&
+                  eyeBbox![3] > 0)
+              ? eyeBbox!
+              : [0.25, 0.20, 0.35, 0.40];
+          final eyeLeft = (eBox[0] * totalW).clamp(0.0, totalW - 40.0);
+          final eyeTop = (eBox[1] * totalH).clamp(0.0, totalH - 30.0);
+          final eyeWidth = (eBox[2] * totalW).clamp(36.0, totalW - eyeLeft);
+          final eyeHeight = (eBox[3] * totalH).clamp(24.0, totalH - eyeTop);
+
+          // Gill normalized coordinates [x, y, w, h] or default fallback
+          final gBox = (gillBbox != null &&
+                  gillBbox!.length == 4 &&
+                  gillBbox![2] > 0 &&
+                  gillBbox![3] > 0)
+              ? gillBbox!
+              : [0.65, 0.25, 0.30, 0.50];
+          final gillLeft = (gBox[0] * totalW).clamp(0.0, totalW - 40.0);
+          final gillTop = (gBox[1] * totalH).clamp(0.0, totalH - 30.0);
+          final gillWidth = (gBox[2] * totalW).clamp(36.0, totalW - gillLeft);
+          final gillHeight = (gBox[3] * totalH).clamp(24.0, totalH - gillTop);
+
+          return Stack(
+            children: [
+              Center(
+                child: Icon(
+                  Icons.image_rounded,
+                  size: 48,
+                  color: Colors.white.withValues(alpha: 0.15),
                 ),
-                borderRadius: BorderRadius.circular(4),
               ),
-              child: Align(
-                alignment: Alignment.topLeft,
+              // Eye Bounding Box Indicator
+              Positioned(
+                left: eyeLeft,
+                top: eyeTop,
+                width: eyeWidth,
+                height: eyeHeight,
                 child: Container(
-                  color: effectiveOverlayColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                  child: Text(
-                    'EYE ${eyeScore != null ? "${(eyeScore! * 100).round()}%" : ""}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w700,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: effectiveOverlayColor,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      color: effectiveOverlayColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 1),
+                      child: Text(
+                        'EYE ${eyeScore != null ? "${(eyeScore! * 100).round()}%" : ""}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          // Gill Bounding Box Indicator
-          Positioned(
-            left: 110,
-            top: 40,
-            child: Container(
-              width: 64,
-              height: 70,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: isSafe
-                      ? AppColors.verdictSafe
-                      : (isCaution
-                          ? AppColors.verdictCaution
-                          : AppColors.verdictAvoid),
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
+              // Gill Bounding Box Indicator
+              Positioned(
+                left: gillLeft,
+                top: gillTop,
+                width: gillWidth,
+                height: gillHeight,
                 child: Container(
-                  color: effectiveOverlayColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                  child: Text(
-                    'GILL ${gillScore != null ? "${(gillScore! * 100).round()}%" : ""}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w700,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: effectiveOverlayColor,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      color: effectiveOverlayColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 1),
+                      child: Text(
+                        'GILL ${gillScore != null ? "${(gillScore! * 100).round()}%" : ""}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

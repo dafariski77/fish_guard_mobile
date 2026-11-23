@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/ml/inference_service.dart';
-import '../../../core/ml/hybrid_risk_engine.dart';
 import '../../../core/models/scan_result_model.dart';
 import '../../../core/models/species_prediction.dart';
 import '../../../core/models/vision_freshness.dart';
@@ -87,10 +86,10 @@ class ScannerViewModel extends Notifier<ScannerState> {
     try {
       final species = state.detectedSpecies ??
           const SpeciesPrediction(
-            label: 'tongkol',
-            displayName: 'Tongkol (Bullet Tuna)',
-            confidence: 0.88,
-            intrinsicRisk: 'HIGH_HISTAMINE',
+            label: 'unknown',
+            displayName: 'Unknown Species',
+            confidence: 0.0,
+            intrinsicRisk: 'UNKNOWN_RISK',
           );
 
       final vision = state.visionFreshness ??
@@ -103,7 +102,7 @@ class ScannerViewModel extends Notifier<ScannerState> {
             grade: 'SAFE',
           );
 
-      const riskEngine = HybridRiskEngine();
+      final riskEngine = ref.read(fishInferenceServiceProvider).riskEngine;
       final verdict = riskEngine.evaluateVerdict(
         species: species,
         vision: vision,

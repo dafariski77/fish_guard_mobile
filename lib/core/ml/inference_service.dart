@@ -38,11 +38,21 @@ class InferenceService {
   /// Phase 1: Fast species detection and vision freshness check
   Future<({SpeciesPrediction species, VisionFreshness vision})>
       detectSpeciesAndVision(ScanInput input) async {
-    final species = await driver.detectSpecies(
+    final rawSpecies = await driver.detectSpecies(
       wholeFishPath: input.wholeFishImagePath,
       eyeGillPath: input.eyeGillImagePath,
       scenario: input.sampleScenario,
     );
+
+    // Fallback if species confidence is below threshold (< 0.70)
+    final species = rawSpecies.confidence < 0.70
+        ? SpeciesPrediction(
+            label: 'unknown',
+            displayName: 'Unknown Species',
+            confidence: rawSpecies.confidence,
+            intrinsicRisk: 'UNKNOWN_RISK',
+          )
+        : rawSpecies;
 
     final vision = await driver.evaluateVision(
       wholeFishPath: input.wholeFishImagePath,

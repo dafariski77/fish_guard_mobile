@@ -69,6 +69,62 @@ void main() {
       expect(find.text('Clear cornea and healthy eye convexity.'), findsOneWidget);
       expect(find.text('Gills show vibrant, natural reddish biological coloration.'), findsOneWidget);
       expect(find.textContaining('Safe to buy. Keep chilled on ice'), findsOneWidget);
+
+      // Bounding box overlay text
+      expect(find.text('EYE 86%'), findsOneWidget);
+      expect(find.text('GILL 89%'), findsOneWidget);
+    });
+
+    testWidgets('Renders LOW INTRINSIC RISK badge and unverified disclaimer for unknown species',
+        (WidgetTester tester) async {
+      final scanResult = ScanResultModel(
+        scanId: 'low-risk-scan-uuid',
+        timestamp: DateTime.now(),
+        species: const SpeciesPrediction(
+          label: 'bandeng',
+          displayName: 'Bandeng (Milkfish)',
+          confidence: 0.95,
+          intrinsicRisk: 'LOW_INTRINSIC_RISK',
+        ),
+        vision: const VisionFreshness(
+          eyeBbox: [0.30, 0.20, 0.15, 0.15],
+          gillBbox: [0.50, 0.35, 0.20, 0.25],
+          eyeScore: 0.92,
+          gillScore: 0.95,
+          combinedFreshnessScore: 93.7,
+          grade: 'SAFE',
+        ),
+        sensory: const SensoryInput(
+          smell: 'fresh_sea',
+          texture: 'bounces_back',
+          storage: 'packed_in_ice',
+        ),
+        verdict: const FinalVerdict(
+          status: 'GREEN',
+          reasons: [
+            'Clear cornea and healthy eye convexity.',
+            'Gills show vibrant, natural reddish biological coloration.',
+          ],
+          recommendation: 'Safe to buy. Keep chilled on ice.',
+        ),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.lightTheme,
+          home: VerdictScreen(
+            speciesName: scanResult.species.displayName,
+            score: scanResult.vision.combinedFreshnessScore.round(),
+            scanResult: scanResult,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Bandeng (Milkfish)'), findsOneWidget);
+      expect(find.text('LOW INTRINSIC RISK'), findsOneWidget);
+      expect(find.text('EYE 92%'), findsOneWidget);
+      expect(find.text('GILL 95%'), findsOneWidget);
     });
   });
 }

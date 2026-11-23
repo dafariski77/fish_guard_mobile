@@ -29,13 +29,18 @@ class RecentScansCard extends StatelessWidget {
           return InkWell(
             onTap: () {
               AppMotion.selectionHaptic();
-              context.goToVerdict(
-                VerdictRouteArgs(
-                  speciesName: item.species,
-                  score: item.freshnessScore,
-                  isCaution: item.isCaution,
-                ),
-              );
+              if (item.scanResult != null) {
+                context.goToVerdict(VerdictRouteArgs.fromScanResult(item.scanResult!));
+              } else {
+                context.goToVerdict(
+                  VerdictRouteArgs(
+                    speciesName: item.species,
+                    score: item.freshnessScore,
+                    isCaution: item.isCaution,
+                    isAvoid: item.isAvoid,
+                  ),
+                );
+              }
             },
             borderRadius: index == 0
                 ? const BorderRadius.vertical(top: Radius.circular(AppRadius.card))

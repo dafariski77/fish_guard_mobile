@@ -184,5 +184,32 @@ void main() {
       expect(verdict.status, 'GREEN');
       expect(verdict.reasons.last, contains('Sensory check skipped'));
     });
+
+    test('Unverified species (UNKNOWN_RISK) appends warning advisory reason', () {
+      const unknownSpecies = SpeciesPrediction(
+        label: 'unknown',
+        displayName: 'Unknown Species',
+        confidence: 0.55,
+        intrinsicRisk: 'UNKNOWN_RISK',
+      );
+
+      const safeSensory = SensoryInput(
+        smell: 'fresh_sea',
+        texture: 'bounces_back',
+        storage: 'packed_in_ice',
+      );
+
+      final verdict = engine.evaluateVerdict(
+        species: unknownSpecies,
+        vision: freshVision,
+        sensory: safeSensory,
+      );
+
+      expect(verdict.status, 'GREEN');
+      expect(
+        verdict.reasons,
+        anyElement(contains('Species unverified (confidence < 70%)')),
+      );
+    });
   });
 }

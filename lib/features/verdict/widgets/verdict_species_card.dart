@@ -16,6 +16,13 @@ class VerdictSpeciesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final (textColor, bgColor) = switch (riskTier.toUpperCase()) {
+      var r when r.contains('HISTAMINE') => (AppColors.riskHistamineText, AppColors.riskHistamineBg),
+      var r when r.contains('CIGUATERA') => (AppColors.riskCiguateraText, AppColors.riskCiguateraBg),
+      var r when r.contains('LOW') => (AppColors.riskLowText, AppColors.riskLowBg),
+      _ => (AppColors.riskUnknownText, AppColors.riskUnknownBg),
+    };
+
     return Container(
       padding: AppSpacing.cardPadding,
       decoration: BoxDecoration(
@@ -66,12 +73,12 @@ class VerdictSpeciesCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: AppSpacing.s, vertical: 2),
                   decoration: BoxDecoration(
-                    color: AppColors.riskHistamineBg,
+                    color: bgColor,
                     borderRadius: AppRadius.borderFull,
                   ),
                   child: Text(
                     riskTier,
-                    style: AppTypography.caption2(color: AppColors.riskHistamineText)
+                    style: AppTypography.caption2(color: textColor)
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                 ),

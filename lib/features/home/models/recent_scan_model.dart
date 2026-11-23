@@ -11,6 +11,7 @@ class RecentScanModel {
   final Color verdictColor;
   final Color verdictBg;
   final bool isCaution;
+  final bool isAvoid;
   final ScanResultModel? scanResult;
 
   const RecentScanModel({
@@ -21,6 +22,7 @@ class RecentScanModel {
     required this.verdictColor,
     required this.verdictBg,
     required this.isCaution,
+    this.isAvoid = false,
     this.scanResult,
   });
 
@@ -28,6 +30,7 @@ class RecentScanModel {
   factory RecentScanModel.fromScanResult(ScanResultModel result) {
     final isSafe = result.verdict.isSafe;
     final isCaution = result.verdict.isCaution;
+    final isAvoid = result.verdict.isAvoid;
 
     return RecentScanModel(
       species: result.species.displayName,
@@ -41,6 +44,7 @@ class RecentScanModel {
           ? AppColors.verdictSafeBg
           : (isCaution ? AppColors.verdictCautionBg : AppColors.verdictAvoidBg),
       isCaution: isCaution,
+      isAvoid: isAvoid,
       scanResult: result,
     );
   }

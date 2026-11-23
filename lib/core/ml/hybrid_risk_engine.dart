@@ -173,6 +173,12 @@ class HybridRiskEngine {
       recommendation = 'Do not purchase or consume. Fish is spoiled.';
     }
 
+    // Add unverified species advisory if confidence fell below threshold
+    if (species.isUnknownRisk || species.label == 'unknown') {
+      reasons.add(
+          'Species unverified (confidence < 70%): Exercise extra caution with storage and cooking.');
+    }
+
     // Add sensory skipped disclaimer if user bypassed questions
     if (isSkipped && status == 'GREEN') {
       reasons.add(
