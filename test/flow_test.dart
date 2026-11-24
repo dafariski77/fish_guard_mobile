@@ -1,7 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fish_guard_mobile/core/theme/theme.dart';
 import 'package:fish_guard_mobile/main.dart';
 import 'package:fish_guard_mobile/core/routing/routing.dart';
+import 'package:fish_guard_mobile/features/home/models/recent_scan_model.dart';
+import 'package:fish_guard_mobile/features/home/repositories/recent_scans_repository.dart';
+import 'package:fish_guard_mobile/features/home/viewmodels/recent_scans_viewmodel.dart';
 import 'package:fish_guard_mobile/features/home/screens/home_screen.dart';
 import 'package:fish_guard_mobile/features/scanner/screens/scanner_viewfinder_screen.dart';
 import 'package:fish_guard_mobile/features/first_aid/screens/first_aid_screen.dart';
@@ -102,6 +107,23 @@ void main() {
       await tester.pumpWidget(FishGuardApp(
         router: AppRouter.createRouter(initialLocation: AppRoutes.home),
       ));
+      await tester.pumpAndSettle();
+
+      final element = tester.element(find.byType(MaterialApp));
+      final container = ProviderScope.containerOf(element);
+      final repo = container.read(recentScansRepositoryProvider);
+      await repo.addScan(const RecentScanModel(
+        species: 'Kembung',
+        time: 'Yesterday, 06:40 AM',
+        freshnessScore: 62,
+        verdict: 'CAUTION',
+        verdictColor: AppColors.verdictCaution,
+        verdictBg: AppColors.verdictCautionBg,
+        isCaution: true,
+      ));
+
+      container.read(recentScansViewModelProvider.notifier).loadScans();
+      await tester.pump(const Duration(milliseconds: 50));
       await tester.pumpAndSettle();
 
       // Tap Kembung Caution item

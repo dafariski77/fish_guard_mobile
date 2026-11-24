@@ -35,7 +35,33 @@ class FakeScansRepository implements RecentScansRepository {
 void main() {
   group('RecentScansViewModel Riverpod Unit Tests', () {
     test('Initializes in loading state and loads scans from repository', () async {
-      final container = ProviderContainer();
+      final fakeRepo = FakeScansRepository();
+      fakeRepo.items.addAll([
+        const RecentScanModel(
+          species: 'Tongkol',
+          time: 'Today, 07:15 AM',
+          freshnessScore: 88,
+          verdict: 'SAFE',
+          verdictColor: AppColors.verdictSafe,
+          verdictBg: AppColors.verdictSafeBg,
+          isCaution: false,
+        ),
+        const RecentScanModel(
+          species: 'Kembung',
+          time: 'Yesterday, 06:40 AM',
+          freshnessScore: 62,
+          verdict: 'CAUTION',
+          verdictColor: AppColors.verdictCaution,
+          verdictBg: AppColors.verdictCautionBg,
+          isCaution: true,
+        ),
+      ]);
+
+      final container = ProviderContainer(
+        overrides: [
+          recentScansRepositoryProvider.overrideWithValue(fakeRepo),
+        ],
+      );
       addTearDown(container.dispose);
 
       // Verify loading state
@@ -47,7 +73,7 @@ void main() {
 
       final loadedState = container.read(recentScansViewModelProvider);
       expect(loadedState.status, RecentScansStatus.loaded);
-      expect(loadedState.scans.length, 3);
+      expect(loadedState.scans.length, 2);
       expect(loadedState.scans.first.species, 'Tongkol');
       expect(loadedState.hasRecentCaution, isTrue); // Kembung is caution
     });
