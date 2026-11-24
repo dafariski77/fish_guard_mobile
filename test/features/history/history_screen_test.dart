@@ -25,6 +25,11 @@ class _FakeHistoryRepo implements RecentScansRepository {
   Future<void> deleteScan(int index) async {
     if (index >= 0 && index < items.length) items.removeAt(index);
   }
+
+  @override
+  Future<void> clearAll() async {
+    items.clear();
+  }
 }
 
 void main() {
@@ -128,6 +133,14 @@ void main() {
 
       expect(find.byType(VerdictScreen), findsOneWidget);
       expect(find.text('Do Not Buy (High Risk)'), findsOneWidget);
+
+      // Tap back button in VerdictScreen AppBar
+      await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
+      await tester.pumpAndSettle();
+
+      // Verified: Returns to HistoryScreen, NOT HomeScreen!
+      expect(find.byType(HistoryScreen), findsOneWidget);
+      expect(find.text('Inspection History'), findsOneWidget);
     });
   });
 }

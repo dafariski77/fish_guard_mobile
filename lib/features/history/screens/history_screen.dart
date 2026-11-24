@@ -77,11 +77,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           TextButton(
             onPressed: () async {
               Navigator.of(ctx).pop();
-              final state = ref.read(recentScansViewModelProvider);
-              final notifier = ref.read(recentScansViewModelProvider.notifier);
-              for (int i = state.scans.length - 1; i >= 0; i--) {
-                await notifier.removeScan(i);
-              }
+              await ref.read(recentScansViewModelProvider.notifier).clearAll();
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Inspection history cleared')),

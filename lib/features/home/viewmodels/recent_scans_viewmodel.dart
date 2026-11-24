@@ -52,6 +52,13 @@ class RecentScansViewModel extends Notifier<RecentScansState> {
     if (!ref.mounted) return;
     await loadScans();
   }
+
+  /// Clears all inspection history records.
+  Future<void> clearAll() async {
+    await _repository.clearAll();
+    if (!ref.mounted) return;
+    await loadScans();
+  }
 }
 
 /// Global provider for the RecentScansViewModel.

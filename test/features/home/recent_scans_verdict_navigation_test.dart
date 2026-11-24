@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fish_guard_mobile/core/models/scan_result_model.dart';
 import 'package:fish_guard_mobile/core/models/species_prediction.dart';
 import 'package:fish_guard_mobile/core/models/vision_freshness.dart';
@@ -13,6 +14,10 @@ import 'package:fish_guard_mobile/main.dart';
 import 'package:fish_guard_mobile/core/routing/routing.dart';
 
 void main() {
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   group('Recent Scans Safety Navigation & Explainability Preservation Tests', () {
     testWidgets('Tapping an AVOID/RED scan in RecentScansCard preserves AVOID verdict and explainability',
         (WidgetTester tester) async {

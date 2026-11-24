@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fish_guard_mobile/core/theme/theme.dart';
 import 'package:fish_guard_mobile/main.dart';
 import 'package:fish_guard_mobile/core/routing/routing.dart';
@@ -13,6 +14,10 @@ import 'package:fish_guard_mobile/features/first_aid/screens/first_aid_screen.da
 import 'package:fish_guard_mobile/features/verdict/screens/verdict_screen.dart';
 
 void main() {
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   group('FishGuard Complete Sliced UI Flow Tests', () {
     testWidgets('3-Step Onboarding full walkthrough', (WidgetTester tester) async {
       await tester.pumpWidget(const FishGuardApp());

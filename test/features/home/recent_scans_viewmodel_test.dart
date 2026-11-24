@@ -30,6 +30,11 @@ class FakeScansRepository implements RecentScansRepository {
       items.removeAt(index);
     }
   }
+
+  @override
+  Future<void> clearAll() async {
+    items.clear();
+  }
 }
 
 void main() {
