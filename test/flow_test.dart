@@ -45,10 +45,11 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      // Tap First Aid Entry
-      final guideFinder = find.text('Offline Fish Poisoning Guide');
-      await tester.scrollUntilVisible(guideFinder, 100);
-      await tester.tap(guideFinder);
+      // Scroll down to First Aid Entry
+      await tester.drag(find.byType(ListView), const Offset(0, -300));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Offline Fish Poisoning Guide'));
       await tester.pumpAndSettle();
 
       expect(find.byType(FirstAidScreen), findsOneWidget);

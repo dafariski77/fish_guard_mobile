@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:fish_guard_mobile/main.dart';
 
 void main() {
@@ -17,11 +18,13 @@ void main() {
 
     // 3. Verify HomeScreen elements
     expect(find.text('FishGuard'), findsOneWidget);
+    expect(find.text('100% Offline'), findsOneWidget);
     expect(find.text('Scan Fish (2-Step AI)'), findsOneWidget);
     expect(find.text('RECENT INSPECTIONS'), findsOneWidget);
 
-    final guideFinder = find.text('Offline Fish Poisoning Guide');
-    await tester.scrollUntilVisible(guideFinder, 100);
-    expect(guideFinder, findsOneWidget);
+    // Scroll down to First Aid Entry
+    await tester.drag(find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+    expect(find.text('Offline Fish Poisoning Guide'), findsOneWidget);
   });
 }

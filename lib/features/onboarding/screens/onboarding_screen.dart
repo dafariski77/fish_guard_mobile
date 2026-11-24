@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/routing/routing.dart';
@@ -6,17 +7,18 @@ import '../models/onboarding_item.dart';
 import '../widgets/onboarding_vector_illustrations.dart';
 import '../widgets/onboarding_dot_indicator.dart';
 import '../widgets/onboarding_page_content.dart';
+import '../repositories/onboarding_repository.dart';
 
 /// 3-Slide Onboarding Walkthrough for FishGuard.
 /// Orchestrates the page controller and bottom thumb-zone actions (SRP).
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -58,6 +60,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _completeOnboarding() {
     AppMotion.lockOnHaptic();
+    // Persist onboarding completion so returning launches go directly to home
+    ref.read(onboardingCompletedProvider.notifier).complete();
     context.goToHome();
   }
 

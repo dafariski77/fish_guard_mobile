@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/routing/routing.dart';
 import '../viewmodels/recent_scans_state.dart';
 import '../viewmodels/recent_scans_viewmodel.dart';
 import '../widgets/histamine_alert_banner.dart';
@@ -38,6 +39,40 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: AppSpacing.l),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.m,
+              vertical: AppSpacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.card,
+              borderRadius: AppRadius.borderFull,
+              border: Border.all(color: AppColors.border),
+              boxShadow: AppShadows.subtle,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: AppColors.verdictSafe,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  '100% Offline',
+                  style: AppTypography.caption1(color: AppColors.textPrimary)
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -49,8 +84,41 @@ class HomeScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: AppSpacing.m),
 
-              // High-Risk Histamine Alert Banner
+              // Dynamic Contextual Market Advisory Banner
               const HistamineAlertBanner(),
+              const SizedBox(height: AppSpacing.l),
+
+              // Horizontal Capabilities Ribbon
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFeaturePill(
+                      icon: Icons.set_meal_rounded,
+                      title: '6 Species AI',
+                      subtitle: 'Scombridae & Reef',
+                      color: const Color(0xFF007A87),
+                      bg: const Color(0xFFE0F2F1),
+                    ),
+                    const SizedBox(width: AppSpacing.s),
+                    _buildFeaturePill(
+                      icon: Icons.timer_outlined,
+                      title: '10s Sensory',
+                      subtitle: 'Smell & Texture',
+                      color: const Color(0xFFD97706),
+                      bg: const Color(0xFFFEF3C7),
+                    ),
+                    const SizedBox(width: AppSpacing.s),
+                    _buildFeaturePill(
+                      icon: Icons.offline_bolt_rounded,
+                      title: 'Edge LiteRT',
+                      subtitle: 'Zero Cloud Data',
+                      color: const Color(0xFF16A34A),
+                      bg: const Color(0xFFDCFCE7),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: AppSpacing.l),
 
               // Section Header: Recent Scans
@@ -65,13 +133,19 @@ class HomeScreen extends ConsumerWidget {
                         color: AppColors.textSecondary,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'SEE ALL',
-                        style: AppTypography.headline(color: AppColors.primary),
+                    if (recentScansState.scans.isNotEmpty)
+                      TextButton(
+                        onPressed: () {
+                          AppMotion.tapHaptic();
+                          context.goToHistory();
+                        },
+                        child: Text(
+                          'SEE ALL',
+                          style: AppTypography.headline(
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -143,5 +217,55 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return RecentScansCard(items: state.scans);
+  }
+
+  Widget _buildFeaturePill({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required Color bg,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.m,
+        vertical: AppSpacing.s,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: AppRadius.borderCard,
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppShadows.subtle,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.xs),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: AppRadius.borderButton,
+            ),
+            child: Icon(icon, size: 18, color: color),
+          ),
+          const SizedBox(width: AppSpacing.s),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: AppTypography.caption1(color: AppColors.textPrimary)
+                    .copyWith(fontWeight: FontWeight.w700),
+              ),
+              Text(
+                subtitle,
+                style: AppTypography.caption2(color: AppColors.textSecondary),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

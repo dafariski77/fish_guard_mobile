@@ -7,6 +7,7 @@ abstract final class AppRoutes {
   static const String scanner = '/scanner';
   static const String verdict = '/verdict';
   static const String firstAid = '/first-aid';
+  static const String history = '/history';
 
   // --- Names ---
   static const String onboardingName = 'onboarding';
@@ -14,4 +15,5 @@ abstract final class AppRoutes {
   static const String scannerName = 'scanner';
   static const String verdictName = 'verdict';
   static const String firstAidName = 'firstAid';
+  static const String historyName = 'history';
 }

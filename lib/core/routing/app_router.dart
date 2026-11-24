@@ -9,6 +9,7 @@ import '../../features/home/screens/home_screen.dart';
 import '../../features/scanner/screens/scanner_viewfinder_screen.dart';
 import '../../features/verdict/screens/verdict_screen.dart';
 import '../../features/first_aid/screens/first_aid_screen.dart';
+import '../../features/history/screens/history_screen.dart';
 
 /// Central Declarative Router for FishGuard built with GoRouter.
 /// Engineered for scalability, deep linking, and future MVVM state injection.
@@ -85,6 +86,16 @@ abstract final class AppRouter {
           pageBuilder: (context, state) => _buildPageWithSlideTransition(
             state: state,
             child: const FirstAidScreen(),
+          ),
+        ),
+
+        // Full Inspection History
+        GoRoute(
+          path: AppRoutes.history,
+          name: AppRoutes.historyName,
+          pageBuilder: (context, state) => _buildPageWithSlideTransition(
+            state: state,
+            child: const HistoryScreen(),
           ),
         ),
       ],
@@ -184,4 +195,5 @@ extension AppNavigationExtension on BuildContext {
   void goToScanner() => pushNamed(AppRoutes.scannerName);
   void goToVerdict(VerdictRouteArgs args) => pushNamed(AppRoutes.verdictName, extra: args);
   void goToFirstAid() => pushNamed(AppRoutes.firstAidName);
+  void goToHistory() => pushNamed(AppRoutes.historyName);
 }
