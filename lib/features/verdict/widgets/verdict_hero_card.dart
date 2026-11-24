@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../../core/theme/theme.dart';
 
 /// Single Responsibility widget that renders the Traffic-Light Hero Verdict Banner and Radial Gauge.
+/// Enhanced with smooth animated radial sweep and count-up interpolation.
 class VerdictHeroCard extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -53,26 +54,34 @@ class VerdictHeroCard extends StatelessWidget {
             ],
           ),
 
-          // Radial Gauge Indicator
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 58,
-                height: 58,
-                child: CircularProgressIndicator(
-                  value: score / 100.0,
-                  strokeWidth: 6.0,
-                  color: color,
-                  backgroundColor: color.withAlpha(40),
-                  strokeCap: StrokeCap.round,
-                ),
-              ),
-              Text(
-                '$score%',
-                style: AppTypography.headline(color: color),
-              ),
-            ],
+          // Animated Radial Gauge with Fluid Sweep & Number Interpolation
+          TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: 0.0, end: score / 100.0),
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeOutCubic,
+            builder: (context, value, child) {
+              final currentPercent = (value * 100).round();
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircularProgressIndicator(
+                      value: value,
+                      strokeWidth: 6.0,
+                      color: color,
+                      backgroundColor: color.withAlpha(40),
+                      strokeCap: StrokeCap.round,
+                    ),
+                  ),
+                  Text(
+                    '$currentPercent%',
+                    style: AppTypography.headline(color: color),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

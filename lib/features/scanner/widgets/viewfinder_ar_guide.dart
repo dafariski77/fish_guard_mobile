@@ -1,15 +1,18 @@
 import 'package:material_ui/material_ui.dart';
 import '../../../core/theme/theme.dart';
 
-/// Single Responsibility widget that renders the augmented reality framing guides.
+/// Single Responsibility widget that renders the augmented reality framing guides
+/// with animated breathing corners and a dynamic holographic laser scan sweep.
 class ViewfinderArGuide extends StatelessWidget {
   final int step;
   final double breatheOpacity;
+  final double scanProgress;
 
   const ViewfinderArGuide({
     super.key,
     required this.step,
     required this.breatheOpacity,
+    this.scanProgress = 0.5,
   });
 
   @override
@@ -18,6 +21,7 @@ class ViewfinderArGuide extends StatelessWidget {
       painter: _ArGuidePainter(
         step: step,
         breatheOpacity: breatheOpacity,
+        scanProgress: scanProgress,
       ),
     );
   }
@@ -26,8 +30,13 @@ class ViewfinderArGuide extends StatelessWidget {
 class _ArGuidePainter extends CustomPainter {
   final int step;
   final double breatheOpacity;
+  final double scanProgress;
 
-  _ArGuidePainter({required this.step, required this.breatheOpacity});
+  _ArGuidePainter({
+    required this.step,
+    required this.breatheOpacity,
+    required this.scanProgress,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -40,12 +49,14 @@ class _ArGuidePainter extends CustomPainter {
       ..strokeWidth = 3.5
       ..strokeCap = StrokeCap.round;
 
+    final double rx, ry, boxW, boxH;
+
     if (step == 1) {
       // Step 1: Whole Fish Oval Guide with Corner Brackets
-      final boxW = w * 0.85;
-      final boxH = h * 0.40;
-      final rx = (w - boxW) / 2;
-      final ry = (h - boxH) / 2 - 20;
+      boxW = w * 0.85;
+      boxH = h * 0.40;
+      rx = (w - boxW) / 2;
+      ry = (h - boxH) / 2 - 20;
       const c = 26.0;
 
       // Draw 4 corner reticles
@@ -63,8 +74,10 @@ class _ArGuidePainter extends CustomPainter {
     } else {
       // Step 2: Zoomed-in Target Box for Eye & Gill
       final targetSize = w * 0.65;
-      final rx = (w - targetSize) / 2;
-      final ry = (h - targetSize) / 2 - 20;
+      boxW = targetSize;
+      boxH = targetSize;
+      rx = (w - targetSize) / 2;
+      ry = (h - targetSize) / 2 - 20;
       const c = 32.0;
 
       // Draw active targeting brackets
@@ -79,22 +92,27 @@ class _ArGuidePainter extends CustomPainter {
 
       canvas.drawLine(Offset(rx + targetSize - c, ry + targetSize), Offset(rx + targetSize, ry + targetSize), guidePaint);
       canvas.drawLine(Offset(rx + targetSize, ry + targetSize), Offset(rx + targetSize, ry + targetSize - c), guidePaint);
-
-      // Center crosshair
-      final cx = rx + targetSize / 2;
-      final cy = ry + targetSize / 2;
-      final crossPaint = Paint()
-        ..color = AppColors.cameraArGuide.withValues(alpha: breatheOpacity * 0.7)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0;
-
-      canvas.drawLine(Offset(cx - 14, cy), Offset(cx + 14, cy), crossPaint);
-      canvas.drawLine(Offset(cx, cy - 14), Offset(cx, cy + 14), crossPaint);
     }
+
+    // Dynamic Holographic Laser Scan Sweep
+    final scanY = ry + (boxH * scanProgress);
+    final scanPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          AppColors.cameraArGuide.withValues(alpha: 0.0),
+          AppColors.cameraArGuide.withValues(alpha: 0.75),
+          AppColors.cameraArGuide.withValues(alpha: 0.0),
+        ],
+      ).createShader(Rect.fromLTWH(rx, scanY, boxW, 2.5))
+      ..strokeWidth = 2.5;
+
+    canvas.drawLine(Offset(rx + 8, scanY), Offset(rx + boxW - 8, scanY), scanPaint);
   }
 
   @override
   bool shouldRepaint(covariant _ArGuidePainter oldDelegate) {
-    return oldDelegate.step != step || oldDelegate.breatheOpacity != breatheOpacity;
+    return oldDelegate.step != step ||
+        oldDelegate.breatheOpacity != breatheOpacity ||
+        oldDelegate.scanProgress != scanProgress;
   }
 }

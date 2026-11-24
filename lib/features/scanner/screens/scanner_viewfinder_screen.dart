@@ -88,6 +88,7 @@ class _ScannerViewfinderScreenState extends ConsumerState<ScannerViewfinderScree
               return ViewfinderArGuide(
                 step: _currentStep,
                 breatheOpacity: 0.65 + _breatheController.value * 0.35,
+                scanProgress: _breatheController.value,
               );
             },
           ),
