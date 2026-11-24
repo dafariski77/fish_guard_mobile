@@ -1,4 +1,4 @@
-package com.example.fish_guard_mobile
+package com.straysheepdev.fish_guard
 
 import io.flutter.embedding.android.FlutterActivity
 
