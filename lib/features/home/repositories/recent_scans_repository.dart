@@ -16,7 +16,7 @@ abstract class RecentScansRepository {
 class MockRecentScansRepository implements RecentScansRepository {
   final List<RecentScanModel> _scans = [
     const RecentScanModel(
-      species: 'Tongkol (Bullet Tuna)',
+      species: 'Tongkol',
       time: 'Today, 07:15 AM',
       freshnessScore: 88,
       verdict: 'SAFE',
@@ -25,7 +25,7 @@ class MockRecentScansRepository implements RecentScansRepository {
       isCaution: false,
     ),
     const RecentScanModel(
-      species: 'Kembung (Indian Mackerel)',
+      species: 'Kembung',
       time: 'Yesterday, 06:40 AM',
       freshnessScore: 62,
       verdict: 'CAUTION',
@@ -34,7 +34,7 @@ class MockRecentScansRepository implements RecentScansRepository {
       isCaution: true,
     ),
     const RecentScanModel(
-      species: 'Bandeng (Milkfish)',
+      species: 'Bandeng',
       time: '20 Nov, 08:10 AM',
       freshnessScore: 92,
       verdict: 'SAFE',

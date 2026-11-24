@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../../../core/theme/theme.dart';
 import '../../../core/routing/routing.dart';
 import '../models/onboarding_item.dart';
@@ -22,20 +23,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const List<OnboardingItem> _pages = [
     OnboardingItem(
       title: 'Instant Wet-Market Safety',
-      description:
-          'Scan fish eyes and gills in seconds. Get objective biological freshness grading at the market stall before paying.',
+      description: 'Scan fish eyes and gills in seconds. Get objective biological freshness grading at the market stall before paying.',
       illustration: OnboardingIllustration1(),
     ),
     OnboardingItem(
       title: 'Works 100% Offline',
-      description:
-          'Zero cellular signal or Wi-Fi needed. High-speed LiteRT models run entirely on your smartphone hardware.',
+      description: 'Zero cellular signal or Wi-Fi needed. High-speed LiteRT models run entirely on your smartphone hardware.',
       illustration: OnboardingIllustration2(),
     ),
     OnboardingItem(
       title: 'Detect Invisible Hazards',
-      description:
-          'Fuses Computer Vision with a 10s sensory check to catch heat-stable histamine, ciguatoxin, and formalin.',
+      description: 'Fuses Computer Vision with a 10s sensory check to catch heat-stable histamine, ciguatoxin, and formalin.',
       illustration: OnboardingIllustration3(),
     ),
   ];
@@ -71,14 +69,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: AppColors.canvas,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actionsPadding: EdgeInsets.only(right: AppSpacing.l),
         elevation: 0,
         actions: [
           if (!isLastPage)
             TextButton(
               onPressed: _completeOnboarding,
               child: Text(
-                'Skip',
-                style: AppTypography.subheadline(color: AppColors.textSecondary),
+                'SKIP',
+                style: AppTypography.subheadline(
+                  color: AppColors.textSecondary,
+                ),
               ),
             ),
         ],
@@ -121,7 +122,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       onPressed: _onNext,
                       child: Text(
                         isLastPage ? 'Enable Camera & Get Started' : 'Continue',
-                        style: AppTypography.headline(color: AppColors.textInverse),
+                        style: AppTypography.headline(
+                          color: AppColors.textInverse,
+                        ),
                       ),
                     ),
                   ),
@@ -130,7 +133,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const SizedBox(height: AppSpacing.m),
                     Text(
                       'AI Screening Assistant • Not a Certified Laboratory Test',
-                      style: AppTypography.caption2(color: AppColors.textTertiary),
+                      style: AppTypography.caption2(
+                        color: AppColors.textTertiary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ],

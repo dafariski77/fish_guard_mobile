@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../../../core/theme/theme.dart';
 import '../../../core/routing/routing.dart';
 import '../models/recent_scan_model.dart';
@@ -7,10 +8,7 @@ import '../models/recent_scan_model.dart';
 class RecentScansCard extends StatelessWidget {
   final List<RecentScanModel> items;
 
-  const RecentScansCard({
-    super.key,
-    required this.items,
-  });
+  const RecentScansCard({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,9 @@ class RecentScansCard extends StatelessWidget {
             onTap: () {
               AppMotion.selectionHaptic();
               if (item.scanResult != null) {
-                context.goToVerdict(VerdictRouteArgs.fromScanResult(item.scanResult!));
+                context.goToVerdict(
+                  VerdictRouteArgs.fromScanResult(item.scanResult!),
+                );
               } else {
                 context.goToVerdict(
                   VerdictRouteArgs(
@@ -43,14 +43,23 @@ class RecentScansCard extends StatelessWidget {
               }
             },
             borderRadius: index == 0
-                ? const BorderRadius.vertical(top: Radius.circular(AppRadius.card))
+                ? const BorderRadius.vertical(
+                    top: Radius.circular(AppRadius.card),
+                  )
                 : (isLast
-                    ? const BorderRadius.vertical(bottom: Radius.circular(AppRadius.card))
-                    : BorderRadius.zero),
+                      ? const BorderRadius.vertical(
+                          bottom: Radius.circular(AppRadius.card),
+                        )
+                      : BorderRadius.zero),
             child: Column(
               children: [
                 Padding(
-                  padding: AppSpacing.listRowPadding,
+                  padding: EdgeInsets.only(
+                    bottom: 22,
+                    left: AppSpacing.l,
+                    right: AppSpacing.l,
+                    top: 22,
+                  ),
                   child: Row(
                     children: [
                       // Fish Icon Box
@@ -76,16 +85,23 @@ class RecentScansCard extends StatelessWidget {
                           children: [
                             Text(
                               item.species,
-                              style: AppTypography.headline(color: AppColors.textPrimary),
+                              style: AppTypography.headline(
+                                color: AppColors.textPrimary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: AppSpacing.xxs),
                             Text(
                               item.time,
-                              style: AppTypography.footnote(color: AppColors.textSecondary),
+                              style: AppTypography.footnote(
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(width: AppSpacing.m),
 
                       // Verdict Pill Badge
                       Container(
@@ -99,8 +115,9 @@ class RecentScansCard extends StatelessWidget {
                         ),
                         child: Text(
                           '${item.freshnessScore}% ${item.verdict}',
-                          style: AppTypography.caption1(color: item.verdictColor)
-                              .copyWith(fontWeight: FontWeight.w700),
+                          style: AppTypography.caption1(
+                            color: item.verdictColor,
+                          ).copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],

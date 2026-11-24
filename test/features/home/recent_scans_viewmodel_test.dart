@@ -48,7 +48,7 @@ void main() {
       final loadedState = container.read(recentScansViewModelProvider);
       expect(loadedState.status, RecentScansStatus.loaded);
       expect(loadedState.scans.length, 3);
-      expect(loadedState.scans.first.species, 'Tongkol (Bullet Tuna)');
+      expect(loadedState.scans.first.species, 'Tongkol');
       expect(loadedState.hasRecentCaution, isTrue); // Kembung is caution
     });
 

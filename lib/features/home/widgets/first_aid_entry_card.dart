@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../../../core/theme/theme.dart';
 import '../../../core/routing/routing.dart';
 
@@ -45,15 +46,13 @@ class FirstAidEntryCard extends StatelessWidget {
                     'Offline Fish Poisoning Guide',
                     style: AppTypography.headline(color: AppColors.textPrimary),
                   ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Text(
-                    'Symptoms & first-aid for Histamine, Ciguatera, & Formalin',
-                    style: AppTypography.footnote(color: AppColors.textSecondary),
-                  ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+            ),
           ],
         ),
       ),

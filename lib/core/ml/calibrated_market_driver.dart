@@ -17,21 +17,21 @@ class CalibratedMarketDriver implements FishInferenceDriver {
       case 'formalin_flag':
         return const SpeciesPrediction(
           label: 'kembung',
-          displayName: 'Kembung (Indian Mackerel)',
+          displayName: 'Kembung',
           confidence: 0.82,
           intrinsicRisk: 'HIGH_HISTAMINE',
         );
       case 'spoiled_no_ice':
         return const SpeciesPrediction(
           label: 'tongkol',
-          displayName: 'Tongkol (Bullet Tuna)',
+          displayName: 'Tongkol',
           confidence: 0.79,
           intrinsicRisk: 'HIGH_HISTAMINE',
         );
       case 'bandeng_safe':
         return const SpeciesPrediction(
           label: 'bandeng',
-          displayName: 'Bandeng (Milkfish)',
+          displayName: 'Bandeng',
           confidence: 0.91,
           intrinsicRisk: 'LOW_HISTAMINE',
         );

@@ -9,17 +9,19 @@ void main() {
 
     expect(find.text('Instant Wet-Market Safety'), findsOneWidget);
     expect(find.text('Continue'), findsOneWidget);
-    expect(find.text('Skip'), findsOneWidget);
+    expect(find.text('SKIP'), findsOneWidget);
 
     // 2. Tap Skip to navigate directly to HomeScreen
-    await tester.tap(find.text('Skip'));
+    await tester.tap(find.text('SKIP'));
     await tester.pumpAndSettle();
 
     // 3. Verify HomeScreen elements
     expect(find.text('FishGuard'), findsOneWidget);
-    expect(find.text('100% Offline'), findsOneWidget);
     expect(find.text('Scan Fish (2-Step AI)'), findsOneWidget);
-    expect(find.text('Recent Inspections'), findsOneWidget);
-    expect(find.text('Offline Fish Poisoning Guide'), findsOneWidget);
+    expect(find.text('RECENT INSPECTIONS'), findsOneWidget);
+
+    final guideFinder = find.text('Offline Fish Poisoning Guide');
+    await tester.scrollUntilVisible(guideFinder, 100);
+    expect(guideFinder, findsOneWidget);
   });
 }

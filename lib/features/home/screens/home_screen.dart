@@ -30,17 +30,14 @@ class HomeScreen extends ConsumerWidget {
           children: [
             Text(
               'FishGuard',
-              style: AppTypography.title2(color: AppColors.textPrimary),
+              style: AppTypography.title1(color: AppColors.textPrimary),
             ),
             Text(
               'Smart Seafood Safety',
-              style: AppTypography.footnote(color: AppColors.textSecondary),
+              style: AppTypography.subheadline(color: AppColors.textSecondary),
             ),
           ],
         ),
-        actions: const [
-          _OfflineStatusBadge(),
-        ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -63,15 +60,18 @@ class HomeScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Recent Inspections',
-                      style: AppTypography.headline(color: AppColors.textPrimary),
-                    ),
-                    if (recentScansState.isLoading)
-                      const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                      'RECENT INSPECTIONS',
+                      style: AppTypography.headline(
+                        color: AppColors.textSecondary,
                       ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'SEE ALL',
+                        style: AppTypography.headline(color: AppColors.primary),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -143,44 +143,5 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return RecentScansCard(items: state.scans);
-  }
-}
-
-class _OfflineStatusBadge extends StatelessWidget {
-  const _OfflineStatusBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: AppSpacing.l),
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.m,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: AppRadius.borderFull,
-        border: Border.all(color: AppColors.border),
-        boxShadow: AppShadows.subtle,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              color: AppColors.verdictSafe,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          Text(
-            '100% Offline',
-            style: AppTypography.caption1(color: AppColors.textPrimary),
-          ),
-        ],
-      ),
-    );
   }
 }

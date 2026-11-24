@@ -41,7 +41,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap First Aid Entry
-      await tester.tap(find.text('Offline Fish Poisoning Guide'));
+      final guideFinder = find.text('Offline Fish Poisoning Guide');
+      await tester.scrollUntilVisible(guideFinder, 100);
+      await tester.tap(guideFinder);
       await tester.pumpAndSettle();
 
       expect(find.byType(FirstAidScreen), findsOneWidget);
@@ -103,7 +105,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Tap Kembung Caution item
-      await tester.tap(find.text('Kembung (Indian Mackerel)'));
+      final kembungFinder = find.text('Kembung');
+      await tester.ensureVisible(kembungFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(kembungFinder);
       await tester.pumpAndSettle();
 
       expect(find.byType(VerdictScreen), findsOneWidget);
