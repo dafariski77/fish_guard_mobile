@@ -18,7 +18,7 @@ void main() {
 
     // 3. Verify HomeScreen elements
     expect(find.text('FishGuard'), findsOneWidget);
-    expect(find.text('100% Offline'), findsOneWidget);
+    expect(find.text('Smart Seafood Safety'), findsOneWidget);
     expect(find.text('Scan Fish (2-Step AI)'), findsOneWidget);
     expect(find.text('RECENT INSPECTIONS'), findsOneWidget);
 

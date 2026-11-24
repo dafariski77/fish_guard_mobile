@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/recent_scan_model.dart';
 import '../repositories/recent_scans_repository.dart';
 import 'recent_scans_state.dart';
@@ -56,5 +57,5 @@ class RecentScansViewModel extends Notifier<RecentScansState> {
 /// Global provider for the RecentScansViewModel.
 final recentScansViewModelProvider =
     NotifierProvider<RecentScansViewModel, RecentScansState>(
-  RecentScansViewModel.new,
-);
+      RecentScansViewModel.new,
+    );

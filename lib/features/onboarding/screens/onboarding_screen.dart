@@ -124,25 +124,49 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     height: AppSpacing.primaryButtonHeight,
                     child: ElevatedButton(
                       onPressed: _onNext,
-                      child: Text(
-                        isLastPage ? 'Enable Camera & Get Started' : 'Continue',
-                        style: AppTypography.headline(
-                          color: AppColors.textInverse,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        transitionBuilder: (child, animation) => FadeTransition(
+                          opacity: animation,
+                          child: ScaleTransition(
+                            scale: Tween<double>(begin: 0.95, end: 1.0)
+                                .animate(animation),
+                            child: child,
+                          ),
+                        ),
+                        child: Text(
+                          isLastPage
+                              ? 'Enable Camera & Get Started'
+                              : 'Continue',
+                          key: ValueKey(isLastPage),
+                          style: AppTypography.headline(
+                            color: AppColors.textInverse,
+                          ),
                         ),
                       ),
                     ),
                   ),
 
-                  if (isLastPage) ...[
-                    const SizedBox(height: AppSpacing.m),
-                    Text(
-                      'AI Screening Assistant • Not a Certified Laboratory Test',
-                      style: AppTypography.caption2(
-                        color: AppColors.textTertiary,
-                      ),
-                      textAlign: TextAlign.center,
+                  AnimatedCrossFade(
+                    duration: const Duration(milliseconds: 250),
+                    crossFadeState: isLastPage
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstChild: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: AppSpacing.m),
+                        Text(
+                          'AI Screening Assistant • Not a Certified Laboratory Test',
+                          style: AppTypography.caption2(
+                            color: AppColors.textTertiary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                  ],
+                    secondChild: const SizedBox(height: 0),
+                  ),
                 ],
               ),
             ),

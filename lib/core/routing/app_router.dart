@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'app_routes.dart';
 import 'route_arguments.dart';
 import '../theme/theme.dart';
+import '../../features/splash/screens/splash_screen.dart';
 import '../../features/onboarding/screens/onboarding_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../features/scanner/screens/scanner_viewfinder_screen.dart';
@@ -24,6 +25,16 @@ abstract final class AppRouter {
       initialLocation: initialLocation,
       debugLogDiagnostics: false,
       routes: [
+        // Branded Splash Screen
+        GoRoute(
+          path: AppRoutes.splash,
+          name: AppRoutes.splashName,
+          pageBuilder: (context, state) => _buildPageWithFadeTransition(
+            state: state,
+            child: const SplashScreen(),
+          ),
+        ),
+
         // Onboarding Screen
         GoRoute(
           path: AppRoutes.onboarding,
@@ -190,6 +201,7 @@ class _RouteErrorScreen extends StatelessWidget {
 /// Ergonomic navigation extensions on BuildContext.
 /// Enforces separation of concerns so ViewModels and Views don't hardcode route names.
 extension AppNavigationExtension on BuildContext {
+  void goToSplash() => goNamed(AppRoutes.splashName);
   void goToHome() => goNamed(AppRoutes.homeName);
   void goToOnboarding() => goNamed(AppRoutes.onboardingName);
   void goToScanner() => pushNamed(AppRoutes.scannerName);

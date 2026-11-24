@@ -21,8 +21,12 @@ class SharedPreferencesOnboardingRepository implements OnboardingRepository {
 
   @override
   Future<bool> hasCompletedOnboarding() async {
-    final prefs = await _getPrefs();
-    return prefs.getBool(_key) ?? false;
+    try {
+      final prefs = await _getPrefs();
+      return prefs.getBool(_key) ?? false;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
