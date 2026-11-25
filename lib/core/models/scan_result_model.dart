@@ -11,6 +11,7 @@ class ScanResultModel {
   final VisionFreshness vision;
   final SensoryInput sensory;
   final FinalVerdict verdict;
+  final String? imagePath;
 
   const ScanResultModel({
     required this.scanId,
@@ -19,6 +20,7 @@ class ScanResultModel {
     required this.vision,
     required this.sensory,
     required this.verdict,
+    this.imagePath,
   });
 
   factory ScanResultModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class ScanResultModel {
       verdict: FinalVerdict.fromJson(
         json['final_verdict'] as Map<String, dynamic>? ?? {},
       ),
+      imagePath: json['image_path'] as String?,
     );
   }
 
@@ -48,5 +51,6 @@ class ScanResultModel {
     'vision_freshness': vision.toJson(),
     'sensory_input': sensory.toJson(),
     'final_verdict': verdict.toJson(),
+    if (imagePath != null) 'image_path': imagePath,
   };
 }

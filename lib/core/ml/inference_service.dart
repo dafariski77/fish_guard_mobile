@@ -80,6 +80,7 @@ class InferenceService {
       vision: detection.vision,
       sensory: input.sensory,
       verdict: verdict,
+      imagePath: input.eyeGillImagePath ?? input.wholeFishImagePath,
     );
   }
 }

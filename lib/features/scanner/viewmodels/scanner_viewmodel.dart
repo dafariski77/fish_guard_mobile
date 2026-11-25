@@ -34,20 +34,28 @@ class ScannerViewModel extends Notifier<ScannerState> {
 
   /// Phase 1: Capture whole fish and advance to Step 2
   void captureStep1({String? imagePath}) {
-    state = state.copyWith(currentStep: 2);
+    state = state.copyWith(
+      currentStep: 2,
+      wholeFishImagePath: imagePath,
+    );
   }
 
   /// Phase 2: Capture eye & gill close-up and execute edge vision inference
   Future<SpeciesPrediction> captureStep2AndDetectSpecies({
     String? imagePath,
   }) async {
-    state = state.copyWith(isProcessing: true, errorMessage: null);
+    state = state.copyWith(
+      isProcessing: true,
+      errorMessage: null,
+      eyeGillImagePath: imagePath,
+    );
 
     try {
       final inferenceService = ref.read(fishInferenceServiceProvider);
       final detection = await inferenceService.detectSpeciesAndVision(
         ScanInput(
-          eyeGillImagePath: imagePath,
+          wholeFishImagePath: state.wholeFishImagePath,
+          eyeGillImagePath: imagePath ?? state.eyeGillImagePath,
           sampleScenario: state.sampleScenario,
           sensory: const SensoryInput(
             smell: 'fresh_sea',
@@ -116,6 +124,7 @@ class ScannerViewModel extends Notifier<ScannerState> {
         vision: vision,
         sensory: sensory,
         verdict: verdict,
+        imagePath: state.eyeGillImagePath ?? state.wholeFishImagePath,
       );
 
       // Persist to scan history repository

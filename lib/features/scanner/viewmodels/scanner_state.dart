@@ -12,6 +12,8 @@ class ScannerState {
   final ScanResultModel? lastResult;
   final String? errorMessage;
   final String sampleScenario;
+  final String? wholeFishImagePath;
+  final String? eyeGillImagePath;
 
   const ScannerState({
     this.currentStep = 1,
@@ -22,6 +24,8 @@ class ScannerState {
     this.lastResult,
     this.errorMessage,
     this.sampleScenario = 'fresh_iced',
+    this.wholeFishImagePath,
+    this.eyeGillImagePath,
   });
 
   factory ScannerState.initial() => const ScannerState();
@@ -35,6 +39,8 @@ class ScannerState {
     ScanResultModel? lastResult,
     String? errorMessage,
     String? sampleScenario,
+    String? wholeFishImagePath,
+    String? eyeGillImagePath,
   }) {
     return ScannerState(
       currentStep: currentStep ?? this.currentStep,
@@ -45,6 +51,8 @@ class ScannerState {
       lastResult: lastResult ?? this.lastResult,
       errorMessage: errorMessage,
       sampleScenario: sampleScenario ?? this.sampleScenario,
+      wholeFishImagePath: wholeFishImagePath ?? this.wholeFishImagePath,
+      eyeGillImagePath: eyeGillImagePath ?? this.eyeGillImagePath,
     );
   }
 }

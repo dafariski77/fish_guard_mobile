@@ -144,6 +144,7 @@ class VerdictScreen extends StatelessWidget {
               gillScore: scanResult?.vision.gillScore,
               eyeBbox: scanResult?.vision.eyeBbox,
               gillBbox: scanResult?.vision.gillBbox,
+              imagePath: scanResult?.imagePath,
             ),
             const SizedBox(height: AppSpacing.huge),
           ],

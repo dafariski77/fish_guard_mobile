@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void initState() {
     super.initState();
 
-    final isTest = const bool.fromEnvironment('FLUTTER_TEST') ||
+    final isTest =
+        const bool.fromEnvironment('FLUTTER_TEST') ||
         WidgetsBinding.instance.runtimeType.toString().contains('Test');
 
     _animController = AnimationController(
@@ -44,18 +46,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
 
     _scaleAnimation = Tween<double>(begin: 0.85, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animController,
-        curve: Curves.easeOutBack,
-      ),
+      CurvedAnimation(parent: _animController, curve: Curves.easeOutBack),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animController,
-        curve: Curves.easeOut,
-      ),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
 
     if (isTest) {
       _animController.value = 1.0;
@@ -76,7 +73,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   void _scheduleDispatch() {
-    final isTest = const bool.fromEnvironment('FLUTTER_TEST') ||
+    final isTest =
+        const bool.fromEnvironment('FLUTTER_TEST') ||
         WidgetsBinding.instance.runtimeType.toString().contains('Test');
 
     if (isTest && widget.displayDuration == null) {
@@ -114,10 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           builder: (context, child) {
             return FadeTransition(
               opacity: _fadeAnimation,
-              child: ScaleTransition(
-                scale: _scaleAnimation,
-                child: child,
-              ),
+              child: ScaleTransition(scale: _scaleAnimation, child: child),
             );
           },
           child: Center(
@@ -162,13 +157,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
                                 Container(
-                              color: AppColors.primary,
-                              child: const Icon(
-                                Icons.shield_rounded,
-                                size: 52,
-                                color: AppColors.textInverse,
-                              ),
-                            ),
+                                  color: AppColors.primary,
+                                  child: const Icon(
+                                    Icons.shield_rounded,
+                                    size: 52,
+                                    color: AppColors.textInverse,
+                                  ),
+                                ),
                           ),
                         ),
                       ),
@@ -179,54 +174,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   // App Title
                   Text(
                     'FishGuard',
-                    style: AppTypography.largeTitle(
-                      color: AppColors.textPrimary,
-                    ).copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
+                    style:
+                        AppTypography.largeTitle(color: AppColors.textPrimary)
+                            .copyWith(
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.5,
+                            ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
 
                   // Subtitle / Tagline
                   Text(
                     'Smart Seafood Safety',
-                    style: AppTypography.title3(
-                      color: AppColors.primary,
-                    ).copyWith(fontWeight: FontWeight.w600),
+                    style: AppTypography.title3(color: AppColors.primary)
+                        .copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: AppSpacing.l),
-
-                  // 100% Offline Badge Pill
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.m,
-                      vertical: AppSpacing.xs,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.card,
-                      borderRadius: AppRadius.borderFull,
-                      border: Border.all(color: AppColors.border),
-                      boxShadow: AppShadows.subtle,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: AppColors.verdictSafe,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Text(
-                          '100% Offline Edge ML',
-                          style: AppTypography.caption1(
-                            color: AppColors.textPrimary,
-                          ).copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                  ),
 
                   const Spacer(flex: 3),
 

@@ -9,6 +9,7 @@ import '../widgets/histamine_alert_banner.dart';
 import '../widgets/recent_scans_card.dart';
 import '../widgets/first_aid_entry_card.dart';
 import '../widgets/home_scan_bottom_bar.dart';
+import '../widgets/diagnostics_logs_sheet.dart';
 
 /// Home Dashboard Screen (v3.0 Wet-Market Ergonomics).
 /// Refactored to MVVM using Riverpod [ConsumerWidget].
@@ -39,6 +40,17 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Diagnostics Logs',
+            onPressed: () => DiagnosticsLogsSheet.show(context),
+            icon: const Icon(
+              Icons.terminal_rounded,
+              color: AppColors.textSecondary,
+              size: 20,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: RefreshIndicator(
@@ -149,6 +161,6 @@ class HomeScreen extends ConsumerWidget {
       );
     }
 
-    return RecentScansCard(items: state.scans);
+    return RecentScansCard(items: state.scans.take(3).toList());
   }
 }

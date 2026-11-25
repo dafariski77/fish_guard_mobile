@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../../../core/theme/theme.dart';
 import '../models/poisoning_condition_model.dart';
 import '../widgets/emergency_banner.dart';
@@ -33,7 +34,8 @@ class FirstAidScreen extends StatelessWidget {
     ),
     PoisoningConditionModel(
       title: 'Ciguatera Fish Poisoning (CFP)',
-      subtitle: 'Bioaccumulated in large reef predators (Kerapu, Barracuda, Kakap)',
+      subtitle:
+          'Bioaccumulated in large reef predators (Kerapu, Barracuda, Kakap)',
       tagColor: AppColors.riskCiguateraText,
       tagBg: AppColors.riskCiguateraBg,
       tagName: 'Neurotoxic',
@@ -56,7 +58,7 @@ class FirstAidScreen extends StatelessWidget {
       tagColor: Color(0xFF2563EB),
       tagBg: Color(0xFFEFF6FF),
       tagName: 'Gastrointestinal',
-      onsetTime: '6 – 48 hours (Bacterial) / Immediate (Formalin)',
+      onsetTime: '6 – 48 hours Immediate',
       symptoms: [
         'Formalin: burning sensation in mouth/throat, sharp stomach pains',
         'Bacterial: severe watery or bloody diarrhea, high fever, chills',
@@ -78,9 +80,6 @@ class FirstAidScreen extends StatelessWidget {
         backgroundColor: AppColors.groupedBackground,
         elevation: 0,
         title: Text('Fish Poisoning Guide', style: AppTypography.headline()),
-        actions: const [
-          _OfflineGuideBadge(),
-        ],
       ),
       body: SafeArea(
         child: ListView(
@@ -93,42 +92,16 @@ class FirstAidScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.l),
 
             // Poisoning Conditions
-            ..._conditions.map((cond) => Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.l),
-                  child: PoisoningConditionCard(condition: cond),
-                )),
+            ..._conditions.map(
+              (cond) => Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.l),
+                child: PoisoningConditionCard(condition: cond),
+              ),
+            ),
 
             const SizedBox(height: AppSpacing.xl),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _OfflineGuideBadge extends StatelessWidget {
-  const _OfflineGuideBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: AppSpacing.l),
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.m,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: AppRadius.borderFull,
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.cloud_off_rounded, size: 14, color: AppColors.textSecondary),
-          const SizedBox(width: AppSpacing.xs),
-          Text('100% Offline', style: AppTypography.caption1(color: AppColors.textSecondary)),
-        ],
       ),
     );
   }

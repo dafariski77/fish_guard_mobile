@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:material_ui/material_ui.dart';
 import '../../../core/theme/theme.dart';
 
@@ -12,6 +14,7 @@ class VerdictExplainabilityCard extends StatelessWidget {
   final double? gillScore;
   final List<double>? eyeBbox;
   final List<double>? gillBbox;
+  final String? imagePath;
 
   const VerdictExplainabilityCard({
     super.key,
@@ -24,6 +27,7 @@ class VerdictExplainabilityCard extends StatelessWidget {
     this.gillScore,
     this.eyeBbox,
     this.gillBbox,
+    this.imagePath,
   });
 
   @override
@@ -180,15 +184,30 @@ class VerdictExplainabilityCard extends StatelessWidget {
           final gillWidth = (gBox[2] * totalW).clamp(36.0, totalW - gillLeft);
           final gillHeight = (gBox[3] * totalH).clamp(24.0, totalH - gillTop);
 
-          return Stack(
-            children: [
-              Center(
-                child: Icon(
-                  Icons.image_rounded,
-                  size: 48,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
-              ),
+          final hasFile = imagePath != null &&
+              imagePath!.isNotEmpty &&
+              File(imagePath!).existsSync();
+
+          return ClipRRect(
+            borderRadius: AppRadius.borderCard,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (hasFile)
+                  Image.file(
+                    File(imagePath!),
+                    fit: BoxFit.cover,
+                    width: totalW,
+                    height: totalH,
+                  )
+                else
+                  Center(
+                    child: Icon(
+                      Icons.image_rounded,
+                      size: 48,
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                  ),
               // Eye Bounding Box Indicator
               Positioned(
                 left: eyeLeft,
@@ -253,7 +272,8 @@ class VerdictExplainabilityCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
+              ],
+            ),
           );
         },
       ),
