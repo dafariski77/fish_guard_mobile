@@ -61,20 +61,20 @@ jobs:
         run: flutter pub get
 
       - name: Configure release signing (if secrets provided)
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        if: github.event_name != 'pull_request'
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/release-keystore.jks
-          cat <<EOF > android/key.properties
-          storePassword=$ANDROID_STORE_PASSWORD
-          keyPassword=$ANDROID_KEY_PASSWORD
-          keyAlias=$ANDROID_KEY_ALIAS
-          storeFile=release-keystore.jks
-          EOF
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/release-keystore.jks
+            printf "storePassword=%s\nkeyPassword=%s\nkeyAlias=%s\nstoreFile=release-keystore.jks\n" \
+              "$ANDROID_STORE_PASSWORD" "$ANDROID_KEY_PASSWORD" "$ANDROID_KEY_ALIAS" > android/key.properties
+          else
+            echo "No ANDROID_KEYSTORE_BASE64 secret set; using debug signing fallback."
+          fi
 
       - name: Build Debug APK
         if: github.event_name == 'pull_request'
