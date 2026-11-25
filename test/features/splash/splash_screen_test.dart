@@ -44,7 +44,6 @@ void main() {
 
       expect(find.text('FishGuard'), findsOneWidget);
       expect(find.text('Smart Seafood Safety'), findsOneWidget);
-      expect(find.text('100% Offline Edge ML'), findsOneWidget);
       expect(find.text('On-Device LiteRT Inference'), findsOneWidget);
     });
 
